@@ -4,12 +4,14 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginCommand } from '@application/modules/auth/features/login/LoginCommand';
 import { LoginRequest } from '@application/modules/auth/features/login/LoginRequest';
 import { LoginResponse } from '@application/modules/auth/features/login/LoginResponse';
+import { Public } from '@api/decorators/Public';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly commandBus: CommandBus) {}
 
+  @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Authenticate and receive a JWT' })

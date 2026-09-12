@@ -29,6 +29,7 @@ import { UpdateUserRequest } from '@application/modules/user/features/updateuser
 import { UpdateUserResponse } from '@application/modules/user/features/updateuser/UpdateUserResponse';
 import { EntityStatus } from '@shared/enums/EntityStatus';
 import { resolvePage, resolvePageSize } from '@shared/utils/Pagination';
+import { RequiresPermission } from '@api/decorators/RequiresPermission';
 
 @ApiTags(SwaggerTag.User)
 @Controller(ApiRoute.User)
@@ -38,6 +39,7 @@ export class UserController {
     private readonly queryBus: QueryBus,
   ) {}
 
+  @RequiresPermission('user.create')
   @Post()
   @ApiOperation({ summary: 'Create a user' })
   @ApiResponse({ status: 201, type: CreateUserResponse })
@@ -57,6 +59,7 @@ export class UserController {
     );
   }
 
+  @RequiresPermission('user.view')
   @Get()
   @ApiOperation({ summary: 'List users (search, filter, paginate)' })
   @ApiQuery({ name: 'search', required: false })
@@ -87,6 +90,7 @@ export class UserController {
     );
   }
 
+  @RequiresPermission('user.view')
   @Get(':id')
   @ApiOperation({ summary: 'Get a user by id' })
   @ApiResponse({ status: 200, type: GetUserResponse })
@@ -97,6 +101,7 @@ export class UserController {
     );
   }
 
+  @RequiresPermission('user.update')
   @Patch(':id')
   @ApiOperation({
     summary: 'Partially update a user, including activate/deactivate',
@@ -120,6 +125,7 @@ export class UserController {
     );
   }
 
+  @RequiresPermission('user.assign-role')
   @Patch(':id/role')
   @ApiOperation({
     summary: 'Assign a role to a user, replacing any existing one (§6)',
@@ -140,6 +146,7 @@ export class UserController {
    * general update so a credential never arrives in a general-purpose body.
    * Not a reset flow — no token, no current-password challenge.
    */
+  @RequiresPermission('user.change-password')
   @Patch(':id/password')
   @ApiOperation({ summary: "Change a user's password (administrator action)" })
   @ApiResponse({ status: 200, type: ChangePasswordResponse })

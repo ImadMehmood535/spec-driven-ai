@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AppApplicationModule } from '@application/modules/app/AppApplicationModule';
 import { AuthModule } from '@application/modules/auth/AuthModule';
 import { PermissionModule } from '@application/modules/permission/PermissionModule';
@@ -15,6 +15,8 @@ import { RolePermissionController } from './controllers/RolePermissionController
 import { UserController } from './controllers/UserController';
 import { UserPermissionController } from './controllers/UserPermissionController';
 import { DomainExceptionFilter } from './filters/DomainExceptionFilter';
+import { JwtAuthGuard } from './guards/JwtAuthGuard';
+import { PermissionsGuard } from './guards/PermissionsGuard';
 import { RequestLoggerMiddleware } from './middleware/RequestLoggerMiddleware';
 
 @Module({
@@ -36,7 +38,13 @@ import { RequestLoggerMiddleware } from './middleware/RequestLoggerMiddleware';
     UserController,
     UserPermissionController,
   ],
-  providers: [{ provide: APP_FILTER, useClass: DomainExceptionFilter }],
+  providers: [
+    { provide: APP_FILTER, useClass: DomainExceptionFilter },
+    // Order matters: authenticate first, then authorize. Both are global so a
+    // new route is protected by default — per-route opt-in fails open.
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: PermissionsGuard },
+  ],
 })
 export class ApiModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

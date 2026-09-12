@@ -23,6 +23,7 @@ import { UpdateRoleRequest } from '@application/modules/role/features/updaterole
 import { UpdateRoleResponse } from '@application/modules/role/features/updaterole/UpdateRoleResponse';
 import { EntityStatus } from '@shared/enums/EntityStatus';
 import { resolvePage, resolvePageSize } from '@shared/utils/Pagination';
+import { RequiresPermission } from '@api/decorators/RequiresPermission';
 
 @ApiTags(SwaggerTag.Role)
 @Controller(ApiRoute.Role)
@@ -32,6 +33,7 @@ export class RoleController {
     private readonly queryBus: QueryBus,
   ) {}
 
+  @RequiresPermission('role.create')
   @Post()
   @ApiOperation({ summary: 'Create a role' })
   @ApiResponse({ status: 201, type: CreateRoleResponse })
@@ -43,6 +45,7 @@ export class RoleController {
     );
   }
 
+  @RequiresPermission('role.view')
   @Get()
   @ApiOperation({ summary: 'List roles (search, filter, paginate)' })
   @ApiQuery({ name: 'search', required: false })
@@ -66,6 +69,7 @@ export class RoleController {
     );
   }
 
+  @RequiresPermission('role.view')
   @Get(':id')
   @ApiOperation({ summary: 'Get a role by id' })
   @ApiResponse({ status: 200, type: GetRoleResponse })
@@ -76,6 +80,7 @@ export class RoleController {
     );
   }
 
+  @RequiresPermission('role.update')
   @Patch(':id')
   @ApiOperation({
     summary: 'Partially update a role, including activate/deactivate',

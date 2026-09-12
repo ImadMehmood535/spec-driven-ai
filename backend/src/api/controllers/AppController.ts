@@ -2,12 +2,14 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwaggerTag } from '@api/common/ApiConstants';
 import { AppService, ServiceHealth } from '@application/modules/app/AppService';
+import { Public } from '@api/decorators/Public';
 
 @ApiTags(SwaggerTag.App)
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Public()
   @Get('health')
   @ApiOperation({ summary: 'Service health' })
   @ApiResponse({ status: 200, description: 'The service is running' })
