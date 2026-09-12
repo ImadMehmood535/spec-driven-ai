@@ -7,18 +7,121 @@ project:
 workspace:
   type: greenfield
   structure: monolith
-  autonomy_bias: controlled
+  autonomy_bias: balanced
   run_scope_preference: single
   run_scope_history: []
   scanned_at: "2026-09-12T11:47:10Z"
   source_of_truth: "docs/scope.md"
   reference_architecture: "/Users/imadmehmood/projects/invespy/v2/invespy-v2-feeds-microservice"
+  git_remote: "https://github.com/ImadMehmood535/spec-driven-ai.git"
 
 intents:
   - id: developer-user-module
     title: "Developer User Module"
     status: in_progress
-    work_items: []
+    work_items:
+      - id: project-scaffold
+        title: "Backend Project Scaffold"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: []
+      - id: database-migrations
+        title: "Schema Migrations for the Four Tables"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [project-scaffold]
+      - id: permission-crud
+        title: "Permission Management Slice"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [database-migrations]
+      - id: role-crud
+        title: "Role Management Slice"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [database-migrations]
+      - id: role-permission-assignment
+        title: "Role Permission Assignment"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [role-crud, permission-crud]
+      - id: user-crud
+        title: "User Management Slice"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [role-crud]
+      - id: permission-resolution
+        title: "Effective Permission Resolution"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [user-crud, role-permission-assignment]
+      - id: authentication-login
+        title: "Credential Verification and JWT Login"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [permission-resolution]
+      - id: seed-bootstrap
+        title: "Seeds — Permissions, Admin Role, First Administrator"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [user-crud, role-permission-assignment]
+      - id: route-protection
+        title: "Route Authentication and Authorization Guards"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [authentication-login, seed-bootstrap]
+      - id: ui-scaffold
+        title: "Admin UI Scaffold and Test Harness"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [project-scaffold]
+      - id: ui-shared-components
+        title: "Shared UI Component Kit"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [ui-scaffold]
+      - id: ui-auth
+        title: "Login and Session Handling"
+        status: pending
+        complexity: high
+        mode: validate
+        depends_on: [ui-shared-components, authentication-login]
+      - id: ui-permissions
+        title: "Permission Management Screens"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [ui-shared-components, permission-crud]
+      - id: ui-roles
+        title: "Role Management and Permission Assignment Screens"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [ui-shared-components, role-permission-assignment]
+      - id: ui-users
+        title: "User Management Screens"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [ui-shared-components, user-crud]
+      - id: e2e-critical-flows
+        title: "End-to-End Critical Flows"
+        status: pending
+        complexity: medium
+        mode: confirm
+        depends_on: [ui-auth, ui-users, ui-roles, ui-permissions, route-protection]
 
 runs:
   active: []
