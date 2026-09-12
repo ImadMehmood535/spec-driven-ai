@@ -4,9 +4,12 @@ title: User Management Slice
 intent: developer-user-module
 complexity: high
 mode: validate
-status: pending
-depends_on: [role-crud]
+status: completed
+depends_on:
+  - role-crud
 created: 2026-09-12T12:38:02Z
+run_id: run-spec-driven-ai-006
+completed_at: 2026-09-12T16:30:46.221Z
 ---
 
 # Work Item: User Management Slice

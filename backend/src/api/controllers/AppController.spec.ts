@@ -7,6 +7,7 @@ import { ApiModule } from '@api/ApiModule';
 import { PermissionModel } from '@domain/aggregates/PermissionAggregate/PermissionModel';
 import { RoleModel } from '@domain/aggregates/RoleAggregate/RoleModel';
 import { RolePermissionModel } from '@domain/aggregates/RolePermissionAggregate/RolePermissionModel';
+import { UserModel } from '@domain/aggregates/UserAggregate/UserModel';
 
 /**
  * In production `SequelizeModule.forRoot` provides the connection globally, so
@@ -36,6 +37,8 @@ describe('AppController (HTTP)', () => {
       .overrideProvider(getModelToken(RoleModel))
       .useValue({})
       .overrideProvider(getModelToken(RolePermissionModel))
+      .useValue({})
+      .overrideProvider(getModelToken(UserModel))
       .useValue({})
       .compile();
 
@@ -93,7 +96,13 @@ describe('AppController (HTTP)', () => {
   it('routes every registered controller', async () => {
     // Proves the module graph wired all four controllers, so a missing
     // registration cannot pass unnoticed.
-    const paths = ['/health', '/permission', '/role', '/role/1/permission'];
+    const paths = [
+      '/health',
+      '/permission',
+      '/role',
+      '/role/1/permission',
+      '/user',
+    ];
 
     for (const path of paths) {
       const response = await request(server()).get(path);
