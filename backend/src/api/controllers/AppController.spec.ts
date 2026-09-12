@@ -26,6 +26,15 @@ import { UserModel } from '@domain/aggregates/UserAggregate/UserModel';
 class StubConnectionModule {}
 
 describe('AppController (HTTP)', () => {
+  // AuthModule refuses to build without a secret — that is the point (D-2).
+  const ORIGINAL_SECRET = process.env.JWT_SECRET;
+  beforeAll(() => {
+    process.env.JWT_SECRET = 'test-only-secret-not-a-real-one';
+  });
+  afterAll(() => {
+    process.env.JWT_SECRET = ORIGINAL_SECRET;
+  });
+
   let app: INestApplication;
 
   beforeAll(async () => {
