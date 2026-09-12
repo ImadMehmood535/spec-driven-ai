@@ -3,7 +3,7 @@ id: e2e-critical-flows
 title: End-to-End Critical Flows
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: [ui-auth, ui-users, ui-roles, ui-permissions, route-protection]
 created: 2026-09-12T12:38:02Z
@@ -28,7 +28,8 @@ FR-AC3 end to end.
 - [ ] **Deactivation flow**: deactivating the permission, the role, or the link removes it from the user's effective permissions (FR-AC3)
 - [ ] **Authorization flow**: a user whose role lacks a management permission is refused — 403 handling surfaces as "not permitted", not a logout (FR-AC6, FR-AC7)
 - [ ] **Admin access**: the seeded administrator can reach every management screen (FR-S7, D-7)
-- [ ] Tests are independent and re-runnable — each sets up and cleans its own data, with no ordering dependency
+- [ ] Tests are independent and re-runnable — each generates uniquely-named data per run and asserts only on its own records, with no ordering dependency (**D-11**)
+- [ ] No spec asserts on total row counts or "the first row", and no name is hard-coded in a way a previous run could collide with (D-11)
 - [ ] No real or reused credential is hard-coded in a test file (NFR-8)
 
 ## Technical Notes
@@ -40,8 +41,16 @@ to a guarded route, and a status change propagating through resolution to the UI
 The FR-AC3 deactivation path is the single most valuable assertion here: it crosses every layer
 and is the requirement most likely to be implemented partially.
 
-Re-runnability needs thought, because nothing can be deleted (D-5). Either generate unique
-names per run or reset the database between runs — decide in the design doc.
+**Isolation is by unique per-run data** (D-11). Since nothing can be deleted (D-5), specs
+generate a run-scoped suffix for every permission, role, and user name they create, and assert
+only on their own records. No spec cleans up after itself, and no spec depends on the database
+being empty.
+
+A local script may reset the database for convenience, but no test may rely on it — otherwise
+the suite passes locally and fails wherever data already exists.
+
+Two consequences to respect: never assert on a total row count or "the first row in the table",
+and never hard-code a name that a previous run could have created.
 
 ## Dependencies
 

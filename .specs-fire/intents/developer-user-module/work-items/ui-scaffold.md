@@ -3,7 +3,7 @@ id: ui-scaffold
 title: Admin UI Scaffold and Test Harness
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: [project-scaffold]
 created: 2026-09-12T12:38:02Z

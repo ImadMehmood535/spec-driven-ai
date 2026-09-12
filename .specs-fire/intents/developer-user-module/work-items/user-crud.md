@@ -32,6 +32,8 @@ Rated high because it is the first work item that touches credentials.
 - [ ] **Get by id** (FR-U2) — 404 when absent; no hash in the response
 - [ ] **List** (FR-U2) — paginated, searchable on name/email/username, filterable by `entityStatus` and role
 - [ ] **Update** (FR-U3) — partial update of user information; 404 when absent
+- [ ] **Change password** (FR-U3, **D-9**) — an administrator sets a new password for a user; hashed through the same port, no hash in the response, request body redacted in logs
+- [ ] Changing a password does not require the user's current password, and is not a reset flow — no self-service route, no token, no expiry (D-9)
 - [ ] **Activate / deactivate** (FR-U4)
 - [ ] **Assign role** (FR-U5) — sets `roleId`; assigning a second role *replaces* the first, never accumulates
 - [ ] Assigning a non-existent role returns **404**
@@ -49,10 +51,12 @@ overwrites. Nothing in this slice may introduce a second role path.
 The hashing port lives behind an interface so the algorithm is swappable — the brief notes
 `argon2id` as the alternative to `bcrypt`.
 
-Whether password *change* is in scope: FR-U3 says "update a user's information", and the scope
-lists no password-reset flow (explicitly excluded in the brief). An administrator setting a
-password at creation is required; an update path for the password itself should be decided in
-the design doc and flagged if it looks like a scope change.
+**An administrator can change another user's password** (D-9). It hashes through the same port
+as creation, returns no hash, and has its request body redacted in logs.
+
+Keep the boundary sharp: this is an administrator setting a password *for* a user. It is not a
+password-reset flow — no self-service route, no email token, no expiry, no "current password"
+challenge. Those stay out of scope (D-2), and adding any of them is a scope change per §10.
 
 The login route does not exist yet, so this slice is where body redaction in the request logger
 first matters — user-create carries a plaintext password.

@@ -7,7 +7,7 @@ project:
 workspace:
   type: greenfield
   structure: monolith
-  autonomy_bias: controlled
+  autonomy_bias: balanced
   run_scope_preference: single
   run_scope_history: []
   scanned_at: "2026-09-12T11:47:10Z"
@@ -24,7 +24,7 @@ intents:
         title: "Backend Project Scaffold"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: []
       - id: database-migrations
         title: "Schema Migrations for the Four Tables"
@@ -36,19 +36,19 @@ intents:
         title: "Permission Management Slice"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [database-migrations]
       - id: role-crud
         title: "Role Management Slice"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [database-migrations]
       - id: role-permission-assignment
         title: "Role Permission Assignment"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [role-crud, permission-crud]
       - id: user-crud
         title: "User Management Slice"
@@ -84,13 +84,13 @@ intents:
         title: "Admin UI Scaffold and Test Harness"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [project-scaffold]
       - id: ui-shared-components
         title: "Shared UI Component Kit"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [ui-scaffold]
       - id: ui-auth
         title: "Login and Session Handling"
@@ -102,25 +102,25 @@ intents:
         title: "Permission Management Screens"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [ui-shared-components, permission-crud]
       - id: ui-roles
         title: "Role Management and Permission Assignment Screens"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [ui-shared-components, role-permission-assignment]
       - id: ui-users
         title: "User Management Screens"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [ui-shared-components, user-crud]
       - id: e2e-critical-flows
         title: "End-to-End Critical Flows"
         status: pending
         complexity: medium
-        mode: validate
+        mode: confirm
         depends_on: [ui-auth, ui-users, ui-roles, ui-permissions, route-protection]
 
 runs:

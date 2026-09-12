@@ -3,7 +3,7 @@ id: role-crud
 title: Role Management Slice
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: [database-migrations]
 created: 2026-09-12T12:38:02Z

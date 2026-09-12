@@ -3,7 +3,7 @@ id: ui-permissions
 title: Permission Management Screens
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: [ui-shared-components, permission-crud]
 created: 2026-09-12T12:38:02Z

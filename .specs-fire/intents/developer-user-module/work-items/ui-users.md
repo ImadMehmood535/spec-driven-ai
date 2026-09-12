@@ -3,7 +3,7 @@ id: ui-users
 title: User Management Screens
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: [ui-shared-components, user-crud]
 created: 2026-09-12T12:38:02Z
@@ -27,6 +27,7 @@ Satisfies FR-UI1.
 - [ ] **Assign role** control showing the single current role, making replacement explicit rather than additive (FR-UI1, FR-U5)
 - [ ] Assigning a role when one is already set reads as "change role", matching the one-role-per-user model (§6)
 - [ ] A user with no role is shown as such, and the UI does not imply they have permissions (FR-AC4)
+- [ ] **Change password** action for a user — distinct from the edit form, confirmed before applying, value never echoed in a toast or log (FR-U3, **D-9**)
 - [ ] Activate/deactivate behind a **ConfirmDialog** whose copy notes the user will be unable to log in (FR-U7)
 - [ ] Success and failure toasts on every mutation (FR-UI7)
 - [ ] Loading, empty, and error states from the shared kit (FR-UI7)
@@ -41,9 +42,10 @@ The one-role-per-user constraint has to be visible in the UI, or operators will 
 multi-select and file it as a bug. Present it as a single-value control and label the action
 "change role" when a role is already assigned.
 
-Whether an administrator can change another user's password depends on what `user-crud`
-decided about password updates. Do not add a password-change control here if the backend has no
-route for it — that would be scope creep (§10).
+An administrator **can** change another user's password (D-9), so this screen carries that
+control. Keep it deliberate: a distinct action rather than a field sitting in the middle of the
+edit form, confirmed before it applies, with a success toast that does not echo the value. It
+is not a reset flow — no "send reset link", no current-password challenge (D-9).
 
 Deactivation is the only retirement mechanism (D-5), so the deactivate confirmation carries
 weight that a delete dialog normally would. Its copy should be specific: the user will no longer

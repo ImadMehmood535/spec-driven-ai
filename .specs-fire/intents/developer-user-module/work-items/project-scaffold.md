@@ -3,7 +3,7 @@ id: project-scaffold
 title: Backend Project Scaffold
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: []
 created: 2026-09-12T12:38:02Z

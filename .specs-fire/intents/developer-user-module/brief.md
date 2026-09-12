@@ -368,9 +368,36 @@ the seed grants the admin role the full permission set, not only the four §5 pr
 can require them. Decomposition must sequence: schema → permission resolution → seeds →
 route protection.
 
+**D-8 — Removing a permission from a role deactivates the link.** `FR-RP2` removal sets the
+`RolePermission` row's `entityStatus` to `INACTIVE` rather than deleting it. The row stays,
+history is preserved, and `FR-AC3` already excludes inactive links from permission resolution.
+Re-assigning a previously removed permission reactivates the existing row instead of inserting
+a duplicate — which keeps the `UNIQUE (roleId, permissionId)` constraint satisfied and
+`FR-RP4` intact. Consistent with D-5: nothing in this module is ever deleted.
+
+**D-9 — An administrator can change another user's password.** `FR-U3` ("manage user
+information") includes setting a new password for a user. The new value is hashed through the
+same port as creation, the hash is never returned, and the request body is redacted in logs.
+This is an administrator-initiated change only — it is **not** a password-reset flow: no
+self-service, no email token, no expiry. Those remain out of scope (D-2).
+
+**D-10 — The browser stores the JWT in client-side storage.** The admin UI keeps the token in
+browser storage so a page refresh does not force re-login. Consequence to accept knowingly: a
+token in `localStorage` is readable by any script running on the page, so an XSS bug becomes a
+token disclosure. Mitigation is to keep the surface small — no untrusted HTML rendering, no
+third-party script tags in the admin app, and the token cleared on sign-out along with the
+query cache. Since D-2 issues no refresh token, expiry means re-login.
+
+**D-11 — E2E tests isolate by unique per-run data.** Because nothing is deletable (D-5),
+Playwright specs generate unique names per run (a run-scoped suffix on permission, role, and
+user names) rather than cleaning up after themselves. Each spec sets up what it needs and
+asserts only on its own data, so suites are independent and re-runnable without truncation. A
+local script may reset the database between runs for convenience, but no test depends on it.
+
 ### Still open
 
-Nothing. All questions raised in the first draft have been answered.
+Nothing. Every question raised in the first draft, and every decision deferred during
+decomposition, has been answered.
 
 ## Notes
 

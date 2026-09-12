@@ -3,7 +3,7 @@ id: ui-shared-components
 title: Shared UI Component Kit
 intent: developer-user-module
 complexity: medium
-mode: validate
+mode: confirm
 status: pending
 depends_on: [ui-scaffold]
 created: 2026-09-12T12:38:02Z
