@@ -1,0 +1,25 @@
+project:
+  name: "invespy-developer-user-module"
+  description: "Developer User Module — RBAC (users, roles, permissions, role permissions) for the Invespy Developer platform, per docs/scope.md"
+  created: "2026-09-12T11:47:10Z"
+  fire_version: "0.1.8"
+
+workspace:
+  type: greenfield
+  structure: monolith
+  autonomy_bias: controlled
+  run_scope_preference: single
+  run_scope_history: []
+  scanned_at: "2026-09-12T11:47:10Z"
+  source_of_truth: "docs/scope.md"
+  reference_architecture: "/Users/imadmehmood/projects/invespy/v2/invespy-v2-feeds-microservice"
+
+intents:
+  - id: developer-user-module
+    title: "Developer User Module"
+    status: in_progress
+    work_items: []
+
+runs:
+  active: []
+  completed: []
