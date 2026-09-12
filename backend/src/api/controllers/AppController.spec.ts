@@ -5,6 +5,7 @@ import * as request from 'supertest';
 import { Server } from 'http';
 import { ApiModule } from '@api/ApiModule';
 import { PermissionModel } from '@domain/aggregates/PermissionAggregate/PermissionModel';
+import { RoleModel } from '@domain/aggregates/RoleAggregate/RoleModel';
 
 /**
  * Boots the API layer without the database, which is enough to exercise Nest's
@@ -23,6 +24,8 @@ describe('AppController (HTTP)', () => {
       .overrideProvider(getConnectionToken())
       .useValue({})
       .overrideProvider(getModelToken(PermissionModel))
+      .useValue({})
+      .overrideProvider(getModelToken(RoleModel))
       .useValue({})
       .compile();
     app = moduleRef.createNestApplication();

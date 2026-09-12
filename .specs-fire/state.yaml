@@ -47,11 +47,13 @@ intents:
         completed_at: 2026-09-12T16:09:02.290Z
       - id: role-crud
         title: Role Management Slice
-        status: pending
+        status: completed
         complexity: medium
         mode: confirm
         depends_on:
           - database-migrations
+        run_id: run-spec-driven-ai-004
+        completed_at: 2026-09-12T16:13:20.848Z
       - id: role-permission-assignment
         title: Role Permission Assignment
         status: pending
@@ -182,3 +184,11 @@ runs:
           mode: confirm
       started: 2026-09-12T16:02:18.047Z
       completed: 2026-09-12T16:09:02.290Z
+    - id: run-spec-driven-ai-004
+      scope: single
+      work_items:
+        - id: role-crud
+          intent: developer-user-module
+          mode: confirm
+      started: 2026-09-12T16:10:10.933Z
+      completed: 2026-09-12T16:13:20.848Z
