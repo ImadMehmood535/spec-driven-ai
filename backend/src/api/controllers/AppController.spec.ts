@@ -102,6 +102,7 @@ describe('AppController (HTTP)', () => {
       '/role',
       '/role/1/permission',
       '/user',
+      '/user/1/permission',
     ];
 
     for (const path of paths) {
