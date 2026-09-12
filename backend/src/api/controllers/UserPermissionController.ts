@@ -6,6 +6,7 @@ import { CheckUserPermissionQuery } from '@application/modules/userpermission/fe
 import { CheckUserPermissionResponse } from '@application/modules/userpermission/features/checkuserpermission/CheckUserPermissionResponse';
 import { GetUserPermissionsQuery } from '@application/modules/userpermission/features/getuserpermissions/GetUserPermissionsQuery';
 import { GetUserPermissionsResponse } from '@application/modules/userpermission/features/getuserpermissions/GetUserPermissionsResponse';
+import { RequiresPermission } from '@api/decorators/RequiresPermission';
 
 /**
  * The capability other Developer platform modules consume (§9.6).
@@ -15,6 +16,7 @@ import { GetUserPermissionsResponse } from '@application/modules/userpermission/
 export class UserPermissionController {
   constructor(private readonly queryBus: QueryBus) {}
 
+  @RequiresPermission('user.view')
   @Get()
   @ApiOperation({
     summary: "Resolve a user's effective permissions through their role",
@@ -30,6 +32,7 @@ export class UserPermissionController {
     >(new GetUserPermissionsQuery(userId));
   }
 
+  @RequiresPermission('user.view')
   @Get('check')
   @ApiOperation({
     summary: 'Determine whether a user may perform an action (§9.6)',

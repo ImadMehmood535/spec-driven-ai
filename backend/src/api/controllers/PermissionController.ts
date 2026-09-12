@@ -23,6 +23,7 @@ import { UpdatePermissionRequest } from '@application/modules/permission/feature
 import { UpdatePermissionResponse } from '@application/modules/permission/features/updatepermission/UpdatePermissionResponse';
 import { EntityStatus } from '@shared/enums/EntityStatus';
 import { resolvePage, resolvePageSize } from '@shared/utils/Pagination';
+import { RequiresPermission } from '@api/decorators/RequiresPermission';
 
 @ApiTags(SwaggerTag.Permission)
 @Controller(ApiRoute.Permission)
@@ -32,6 +33,7 @@ export class PermissionController {
     private readonly queryBus: QueryBus,
   ) {}
 
+  @RequiresPermission('permission.create')
   @Post()
   @ApiOperation({ summary: 'Create a permission' })
   @ApiResponse({ status: 201, type: CreatePermissionResponse })
@@ -46,6 +48,7 @@ export class PermissionController {
     >(new CreatePermissionCommand(request.name, request.description ?? null));
   }
 
+  @RequiresPermission('permission.view')
   @Get()
   @ApiOperation({ summary: 'List permissions (search, filter, paginate)' })
   @ApiQuery({ name: 'search', required: false })
@@ -69,6 +72,7 @@ export class PermissionController {
     );
   }
 
+  @RequiresPermission('permission.view')
   @Get(':id')
   @ApiOperation({ summary: 'Get a permission by id' })
   @ApiResponse({ status: 200, type: GetPermissionResponse })
@@ -81,6 +85,7 @@ export class PermissionController {
     );
   }
 
+  @RequiresPermission('permission.update')
   @Patch(':id')
   @ApiOperation({
     summary: 'Partially update a permission, including activate/deactivate',

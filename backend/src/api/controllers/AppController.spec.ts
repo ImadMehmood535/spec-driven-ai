@@ -102,21 +102,24 @@ describe('AppController (HTTP)', () => {
     expect(logged).toContain('ahmed');
   });
 
-  it('routes every registered controller', async () => {
-    // Proves the module graph wired all four controllers, so a missing
-    // registration cannot pass unnoticed.
-    const paths = [
-      '/health',
+  it('routes every registered controller, and guards the management ones', async () => {
+    // A non-404 proves the controller is wired. A 401 proves the global guards
+    // are mounted — a management route must never be reachable without a token.
+    for (const path of [
       '/permission',
       '/role',
       '/role/1/permission',
       '/user',
       '/user/1/permission',
-    ];
-
-    for (const path of paths) {
+    ]) {
       const response = await request(server()).get(path);
-      expect(response.status).not.toBe(404);
+      expect(response.status).toBe(401);
     }
+  });
+
+  it('leaves the public routes reachable without a token', async () => {
+    const response = await request(server()).get('/health');
+
+    expect(response.status).toBe(200);
   });
 });

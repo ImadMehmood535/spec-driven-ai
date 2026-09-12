@@ -18,6 +18,7 @@ import { GetRolePermissionsQuery } from '@application/modules/rolepermission/fea
 import { GetRolePermissionsResponse } from '@application/modules/rolepermission/features/getrolepermissions/GetRolePermissionsResponse';
 import { RemovePermissionCommand } from '@application/modules/rolepermission/features/removepermission/RemovePermissionCommand';
 import { RemovePermissionResponse } from '@application/modules/rolepermission/features/removepermission/RemovePermissionResponse';
+import { RequiresPermission } from '@api/decorators/RequiresPermission';
 
 /**
  * Role-scoped: every operation here is "this role's permissions".
@@ -30,6 +31,7 @@ export class RolePermissionController {
     private readonly queryBus: QueryBus,
   ) {}
 
+  @RequiresPermission('role-permission.assign')
   @Post()
   @ApiOperation({ summary: 'Assign one or more permissions to a role' })
   @ApiResponse({ status: 201, type: AssignPermissionsResponse })
@@ -49,6 +51,7 @@ export class RolePermissionController {
     >(new AssignPermissionsCommand(roleId, request.permissionIds ?? []));
   }
 
+  @RequiresPermission('role-permission.view')
   @Get()
   @ApiOperation({ summary: "List a role's permissions" })
   @ApiQuery({
@@ -74,6 +77,7 @@ export class RolePermissionController {
    * relationship change, not an entity delete, so it does not conflict with
    * D-5 — the row survives and a later re-assignment reactivates it.
    */
+  @RequiresPermission('role-permission.remove')
   @Delete(':permissionId')
   @ApiOperation({
     summary: 'Remove a permission from a role (deactivates the link)',
