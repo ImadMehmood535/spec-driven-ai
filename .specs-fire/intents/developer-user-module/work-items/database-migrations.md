@@ -4,9 +4,12 @@ title: Schema Migrations for the Four Tables
 intent: developer-user-module
 complexity: high
 mode: validate
-status: pending
-depends_on: [project-scaffold]
+status: completed
+depends_on:
+  - project-scaffold
 created: 2026-09-12T12:38:02Z
+run_id: run-spec-driven-ai-002
+completed_at: 2026-09-12T16:00:53.409Z
 ---
 
 # Work Item: Schema Migrations for the Four Tables
