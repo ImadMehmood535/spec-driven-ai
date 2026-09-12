@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+*.tsbuildinfo
+
+# environment — never commit secrets (JWT_SECRET, seed admin credentials, DB creds)
+.env
+.env.*
+!.env.example
+
+# test output
+coverage/
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / OS
+.DS_Store
+.idea/
+*.swp
