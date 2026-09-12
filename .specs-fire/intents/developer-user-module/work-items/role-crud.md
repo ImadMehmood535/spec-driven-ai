@@ -4,9 +4,12 @@ title: Role Management Slice
 intent: developer-user-module
 complexity: medium
 mode: confirm
-status: pending
-depends_on: [database-migrations]
+status: completed
+depends_on:
+  - database-migrations
 created: 2026-09-12T12:38:02Z
+run_id: run-spec-driven-ai-004
+completed_at: 2026-09-12T16:13:20.848Z
 ---
 
 # Work Item: Role Management Slice
