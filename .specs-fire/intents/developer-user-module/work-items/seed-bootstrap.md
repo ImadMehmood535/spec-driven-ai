@@ -4,9 +4,13 @@ title: Seeds — Permissions, Admin Role, First Administrator
 intent: developer-user-module
 complexity: high
 mode: validate
-status: pending
-depends_on: [user-crud, role-permission-assignment]
+status: completed
+depends_on:
+  - user-crud
+  - role-permission-assignment
 created: 2026-09-12T12:38:02Z
+run_id: run-spec-driven-ai-009
+completed_at: 2026-09-12T16:48:57.058Z
 ---
 
 # Work Item: Seeds — Permissions, Admin Role, First Administrator
