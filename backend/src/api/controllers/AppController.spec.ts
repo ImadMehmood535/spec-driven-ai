@@ -1,33 +1,44 @@
-import { INestApplication } from '@nestjs/common';
+import { Global, INestApplication, Module } from '@nestjs/common';
 import { getConnectionToken, getModelToken } from '@nestjs/sequelize';
 import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
 import { Server } from 'http';
+import * as request from 'supertest';
 import { ApiModule } from '@api/ApiModule';
 import { PermissionModel } from '@domain/aggregates/PermissionAggregate/PermissionModel';
 import { RoleModel } from '@domain/aggregates/RoleAggregate/RoleModel';
+import { RolePermissionModel } from '@domain/aggregates/RolePermissionAggregate/RolePermissionModel';
 
 /**
- * Boots the API layer without the database, which is enough to exercise Nest's
- * DI graph, middleware registration and controller routing. The database is a
- * separate concern and has no bearing on these routes.
+ * In production `SequelizeModule.forRoot` provides the connection globally, so
+ * every persistence module can inject it. This test boots ApiModule without a
+ * database, so it supplies the same token from a global stub instead. Model
+ * tokens are stubbed per model.
+ *
+ * ApiModule itself is deliberately the module under test — a hand-built copy
+ * would drift from the real wiring and stop catching middleware mistakes.
  */
+@Global()
+@Module({
+  providers: [{ provide: getConnectionToken(), useValue: {} }],
+  exports: [getConnectionToken()],
+})
+class StubConnectionModule {}
+
 describe('AppController (HTTP)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    // Boots the real ApiModule so its wiring cannot drift, with persistence
-    // stubbed — these assertions are about routing and middleware, not the database.
     const moduleRef = await Test.createTestingModule({
-      imports: [ApiModule],
+      imports: [StubConnectionModule, ApiModule],
     })
-      .overrideProvider(getConnectionToken())
-      .useValue({})
       .overrideProvider(getModelToken(PermissionModel))
       .useValue({})
       .overrideProvider(getModelToken(RoleModel))
       .useValue({})
+      .overrideProvider(getModelToken(RolePermissionModel))
+      .useValue({})
       .compile();
+
     app = moduleRef.createNestApplication();
     await app.init();
   });
@@ -36,10 +47,10 @@ describe('AppController (HTTP)', () => {
     await app?.close();
   });
 
+  const server = () => app.getHttpServer() as Server;
+
   it('boots the API layer and serves /health', async () => {
-    const response = await request(app.getHttpServer() as Server).get(
-      '/health',
-    );
+    const response = await request(server()).get('/health');
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
@@ -53,7 +64,7 @@ describe('AppController (HTTP)', () => {
       .spyOn(process.stdout, 'write')
       .mockImplementation(() => true);
 
-    await request(app.getHttpServer() as Server).get('/health');
+    await request(server()).get('/health');
 
     const logged = write.mock.calls.map((call) => String(call[0])).join('');
     write.mockRestore();
@@ -67,7 +78,7 @@ describe('AppController (HTTP)', () => {
       .spyOn(process.stdout, 'write')
       .mockImplementation(() => true);
 
-    await request(app.getHttpServer() as Server)
+    await request(server())
       .post('/does-not-exist')
       .send({ username: 'ahmed', password: 'super-secret-value' });
 
@@ -77,5 +88,16 @@ describe('AppController (HTTP)', () => {
     expect(logged).not.toContain('super-secret-value');
     expect(logged).toContain('[REDACTED]');
     expect(logged).toContain('ahmed');
+  });
+
+  it('routes every registered controller', async () => {
+    // Proves the module graph wired all four controllers, so a missing
+    // registration cannot pass unnoticed.
+    const paths = ['/health', '/permission', '/role', '/role/1/permission'];
+
+    for (const path of paths) {
+      const response = await request(server()).get(path);
+      expect(response.status).not.toBe(404);
+    }
   });
 });

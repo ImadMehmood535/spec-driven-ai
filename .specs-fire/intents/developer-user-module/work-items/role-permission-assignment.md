@@ -4,9 +4,13 @@ title: Role Permission Assignment
 intent: developer-user-module
 complexity: medium
 mode: confirm
-status: pending
-depends_on: [role-crud, permission-crud]
+status: completed
+depends_on:
+  - role-crud
+  - permission-crud
 created: 2026-09-12T12:38:02Z
+run_id: run-spec-driven-ai-005
+completed_at: 2026-09-12T16:20:18.836Z
 ---
 
 # Work Item: Role Permission Assignment
