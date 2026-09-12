@@ -1,8 +1,10 @@
 import { INestApplication } from '@nestjs/common';
+import { getConnectionToken, getModelToken } from '@nestjs/sequelize';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { Server } from 'http';
 import { ApiModule } from '@api/ApiModule';
+import { PermissionModel } from '@domain/aggregates/PermissionAggregate/PermissionModel';
 
 /**
  * Boots the API layer without the database, which is enough to exercise Nest's
@@ -13,9 +15,16 @@ describe('AppController (HTTP)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
+    // Boots the real ApiModule so its wiring cannot drift, with persistence
+    // stubbed — these assertions are about routing and middleware, not the database.
     const moduleRef = await Test.createTestingModule({
       imports: [ApiModule],
-    }).compile();
+    })
+      .overrideProvider(getConnectionToken())
+      .useValue({})
+      .overrideProvider(getModelToken(PermissionModel))
+      .useValue({})
+      .compile();
     app = moduleRef.createNestApplication();
     await app.init();
   });
