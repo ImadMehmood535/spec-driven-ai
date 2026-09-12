@@ -29,11 +29,13 @@ intents:
         completed_at: 2026-09-12T15:46:26.049Z
       - id: database-migrations
         title: Schema Migrations for the Four Tables
-        status: pending
+        status: completed
         complexity: high
         mode: validate
         depends_on:
           - project-scaffold
+        run_id: run-spec-driven-ai-002
+        completed_at: 2026-09-12T16:00:53.409Z
       - id: permission-crud
         title: Permission Management Slice
         status: pending
@@ -162,3 +164,11 @@ runs:
           mode: confirm
       started: 2026-09-12T12:53:33.564Z
       completed: 2026-09-12T15:46:26.049Z
+    - id: run-spec-driven-ai-002
+      scope: single
+      work_items:
+        - id: database-migrations
+          intent: developer-user-module
+          mode: validate
+      started: 2026-09-12T15:55:21.481Z
+      completed: 2026-09-12T16:00:53.409Z

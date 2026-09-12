@@ -2,6 +2,10 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { InjectConnection, SequelizeModule } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { PermissionModel } from '@domain/aggregates/PermissionAggregate/PermissionModel';
+import { RoleModel } from '@domain/aggregates/RoleAggregate/RoleModel';
+import { RolePermissionModel } from '@domain/aggregates/RolePermissionAggregate/RolePermissionModel';
+import { UserModel } from '@domain/aggregates/UserAggregate/UserModel';
 import { registerAuditHooks } from './hooks/AuditHook';
 
 @Module({
@@ -16,7 +20,7 @@ import { registerAuditHooks } from './hooks/AuditHook';
         username: config.get<string>('DB_USER', 'postgres'),
         password: config.get<string>('DB_PASS', 'postgres'),
         database: config.get<string>('DB_NAME', 'developer_user'),
-        models: [],
+        models: [RoleModel, PermissionModel, UserModel, RolePermissionModel],
         autoLoadModels: true,
         // Schema is owned by migrations (NFR-7). Never enable sync.
         synchronize: false,
