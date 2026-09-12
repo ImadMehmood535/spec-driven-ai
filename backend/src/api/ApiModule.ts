@@ -4,10 +4,12 @@ import { AppApplicationModule } from '@application/modules/app/AppApplicationMod
 import { PermissionModule } from '@application/modules/permission/PermissionModule';
 import { RoleModule } from '@application/modules/role/RoleModule';
 import { RolePermissionModule } from '@application/modules/rolepermission/RolePermissionModule';
+import { UserModule } from '@application/modules/user/UserModule';
 import { AppController } from './controllers/AppController';
 import { PermissionController } from './controllers/PermissionController';
 import { RoleController } from './controllers/RoleController';
 import { RolePermissionController } from './controllers/RolePermissionController';
+import { UserController } from './controllers/UserController';
 import { DomainExceptionFilter } from './filters/DomainExceptionFilter';
 import { RequestLoggerMiddleware } from './middleware/RequestLoggerMiddleware';
 
@@ -17,12 +19,14 @@ import { RequestLoggerMiddleware } from './middleware/RequestLoggerMiddleware';
     PermissionModule,
     RoleModule,
     RolePermissionModule,
+    UserModule,
   ],
   controllers: [
     AppController,
     PermissionController,
     RoleController,
     RolePermissionController,
+    UserController,
   ],
   providers: [{ provide: APP_FILTER, useClass: DomainExceptionFilter }],
 })
