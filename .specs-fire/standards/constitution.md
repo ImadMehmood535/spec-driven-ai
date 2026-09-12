@@ -25,6 +25,30 @@ estate.
 This boundary outranks convenience. If a task appears to require writing outside this
 directory, stop and raise it rather than doing it.
 
+## Backend / Frontend Separation (absolute)
+
+`backend/` and `frontend/` are **two independent projects that will be split into two separate
+repositories**. They are kept in one directory today purely for convenience; nothing may depend
+on that arrangement.
+
+- **Each project is fully self-contained**: its own `package.json`, lockfile, `tsconfig`,
+  ESLint and Prettier config, `.gitignore`, `README.md`, `.env.example`, and test setup.
+  `backend/` also owns its `docker-compose.yml`.
+- **No root-level tooling.** No root `package.json`, no npm workspaces, no shared lockfile, no
+  root build or test script that spans both. Commands run inside each project.
+- **No shared code, ever.** Neither project imports from the other. No shared types package,
+  no shared utils directory, no relative import that crosses the boundary, no symlink, no
+  generated client committed into the other side.
+- **The contract between them is the HTTP API only** — the documented REST surface and its
+  Swagger description. The frontend talks to the backend the way any external client would.
+- **Duplication across the boundary is correct**, not a smell. If both sides need a permission
+  name or a status value, each declares its own. FR-UI13's reuse rule applies *within* a
+  project, never across the two.
+
+**The test**: moving either directory into an empty repository must leave it working, with no
+file from the other side. Any change that would break that test is a violation — raise it
+instead of making it.
+
 ## Git Workflow
 
 - **Remote**: `https://github.com/ImadMehmood535/spec-driven-ai.git` — the only one
