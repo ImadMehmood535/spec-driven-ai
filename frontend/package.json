@@ -1,0 +1,61 @@
+{
+  "name": "developer-user-module-admin",
+  "version": "0.0.1",
+  "description": "Admin UI for the Developer User Module (Next.js, shadcn/ui, Tailwind)",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"test/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
+    "@tanstack/react-query": "^5.62.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "14.2.21",
+    "next-themes": "^0.4.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest-axe": "^3.5.9",
+    "@types/node": "^22.10.7",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^2.1.8",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "eslint-plugin-react": "^7.37.3",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "jest-axe": "^9.0.0",
+    "jsdom": "^25.0.1",
+    "msw": "^2.7.0",
+    "postcss": "^8.4.49",
+    "prettier": "^3.4.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0",
+    "vitest": "^2.1.8"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true
+  }
+}
