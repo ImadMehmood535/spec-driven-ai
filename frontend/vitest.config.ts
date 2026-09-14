@@ -8,6 +8,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
+    // Radix overlays take seconds to open under jsdom, so interaction tests
+    // that open a menu or dialog exceed the 5s default.
+    testTimeout: 20000,
     include: ['src/**/*.test.{ts,tsx}', 'test/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',

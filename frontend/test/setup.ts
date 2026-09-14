@@ -39,6 +39,30 @@ class NoopIntersectionObserver implements IntersectionObserver {
 
 vi.stubGlobal('IntersectionObserver', NoopIntersectionObserver);
 
+// Radix overlays (dropdown, select, dialog) call these during open/close.
+// jsdom implements none of them, so a menu never opens and the test hangs
+// waiting for an item that will not appear.
+if (!Element.prototype.hasPointerCapture) {
+  Element.prototype.hasPointerCapture = () => false;
+}
+if (!Element.prototype.setPointerCapture) {
+  Element.prototype.setPointerCapture = () => undefined;
+}
+if (!Element.prototype.releasePointerCapture) {
+  Element.prototype.releasePointerCapture = () => undefined;
+}
+if (!Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = () => undefined;
+}
+
+class NoopResizeObserver implements ResizeObserver {
+  disconnect(): void {}
+  observe(): void {}
+  unobserve(): void {}
+}
+
+vi.stubGlobal('ResizeObserver', NoopResizeObserver);
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => {
   server.resetHandlers();
