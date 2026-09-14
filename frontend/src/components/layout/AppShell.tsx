@@ -1,10 +1,11 @@
 'use client';
 
-import { KeyRound, Menu, Shield, Users } from 'lucide-react';
+import { KeyRound, LogOut, Menu, Shield, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
+import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -20,6 +21,7 @@ const NAVIGATION = [
  */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { claims, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const isActive = (href: string) => pathname?.startsWith(href) ?? false;
@@ -54,8 +56,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-1">
+          <div className="ml-auto flex items-center gap-2">
+            {claims ? (
+              <span className="hidden text-sm text-muted-foreground sm:inline">
+                {claims.username}
+              </span>
+            ) : null}
             <ThemeToggle />
+            {claims ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Sign out"
+                onClick={signOut}
+              >
+                <LogOut className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            ) : null}
             <Button
               variant="ghost"
               size="icon"

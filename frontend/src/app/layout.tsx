@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import * as React from 'react';
-import { AppShell } from '@/components/layout/AppShell';
+import { AppChrome } from '@/components/layout/AppChrome';
+import { AuthProvider } from '@/components/providers/AuthProvider';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import './globals.css';
@@ -20,7 +21,9 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <QueryProvider>
-            <AppShell>{children}</AppShell>
+            <AuthProvider>
+              <AppChrome>{children}</AppChrome>
+            </AuthProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>
