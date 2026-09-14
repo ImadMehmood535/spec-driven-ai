@@ -20,6 +20,9 @@
       "@shared/*": ["./src/shared/*"]
     },
     "incremental": true,
+    // Inside outDir on purpose: nest-cli deletes dist on every start/build, and a
+    // cache that outlives it makes tsc emit nothing at all. Keep them inseparable.
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
