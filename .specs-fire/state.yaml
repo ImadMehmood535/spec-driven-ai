@@ -172,7 +172,7 @@ intents:
         completed_at: 2026-09-14T20:19:57.072Z
       - id: e2e-critical-flows
         title: End-to-End Critical Flows
-        status: pending
+        status: completed
         complexity: medium
         mode: confirm
         depends_on:
@@ -181,6 +181,8 @@ intents:
           - ui-roles
           - ui-permissions
           - route-protection
+        run_id: run-spec-driven-ai-017
+        completed_at: 2026-09-14T20:48:24.245Z
 runs:
   active: []
   completed:
@@ -312,3 +314,11 @@ runs:
           mode: confirm
       started: 2026-09-14T20:11:36.673Z
       completed: 2026-09-14T20:19:57.072Z
+    - id: run-spec-driven-ai-017
+      scope: single
+      work_items:
+        - id: e2e-critical-flows
+          intent: developer-user-module
+          mode: confirm
+      started: 2026-09-14T20:20:56.087Z
+      completed: 2026-09-14T20:48:24.245Z

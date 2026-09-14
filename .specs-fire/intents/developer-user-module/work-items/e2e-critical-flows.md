@@ -4,9 +4,16 @@ title: End-to-End Critical Flows
 intent: developer-user-module
 complexity: medium
 mode: confirm
-status: pending
-depends_on: [ui-auth, ui-users, ui-roles, ui-permissions, route-protection]
+status: completed
+depends_on:
+  - ui-auth
+  - ui-users
+  - ui-roles
+  - ui-permissions
+  - route-protection
 created: 2026-09-12T12:38:02Z
+run_id: run-spec-driven-ai-017
+completed_at: 2026-09-14T20:48:24.245Z
 ---
 
 # Work Item: End-to-End Critical Flows
