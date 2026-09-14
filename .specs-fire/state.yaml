@@ -142,12 +142,14 @@ intents:
         completed_at: 2026-09-14T19:51:40.345Z
       - id: ui-permissions
         title: Permission Management Screens
-        status: pending
+        status: completed
         complexity: medium
         mode: confirm
         depends_on:
           - ui-shared-components
           - permission-crud
+        run_id: run-spec-driven-ai-014
+        completed_at: 2026-09-14T20:02:00.064Z
       - id: ui-roles
         title: Role Management and Permission Assignment Screens
         status: pending
@@ -282,3 +284,11 @@ runs:
           mode: validate
       started: 2026-09-14T19:45:04.619Z
       completed: 2026-09-14T19:51:40.345Z
+    - id: run-spec-driven-ai-014
+      scope: single
+      work_items:
+        - id: ui-permissions
+          intent: developer-user-module
+          mode: confirm
+      started: 2026-09-14T19:52:53.704Z
+      completed: 2026-09-14T20:02:00.064Z
