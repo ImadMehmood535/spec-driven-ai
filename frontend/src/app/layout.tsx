@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
 import * as React from 'react';
 import { AppChrome } from '@/components/layout/AppChrome';
 import { AuthProvider } from '@/components/providers/AuthProvider';
@@ -24,6 +25,7 @@ export default function RootLayout({
             <AuthProvider>
               <AppChrome>{children}</AppChrome>
             </AuthProvider>
+            <Toaster richColors closeButton />
           </QueryProvider>
         </ThemeProvider>
       </body>
